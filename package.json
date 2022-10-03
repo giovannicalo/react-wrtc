@@ -1,0 +1,53 @@
+{
+	"author": {
+		"email": "giovanni.calo@live.it",
+		"name": "Giovanni Calò",
+		"url": "https://github.com/giovannicalo"
+	},
+	"bugs": {
+		"url": "https://github.com/giovannicalo/react-wrtc/issues"
+	},
+	"dependencies": {
+		"@mapbox/shelf-pack": "^3.2.0",
+		"react-view": "giovannicalo/react-view",
+		"uuid": "^9.0.0",
+		"wrtc-ws-api-client": "giovannicalo/js-wrtc-ws-api-client"
+	},
+	"description": "React WebRTC",
+	"devDependencies": {
+		"@babel/cli": "^7.19.3",
+		"@babel/core": "^7.19.3",
+		"@babel/preset-env": "^7.19.3",
+		"@babel/preset-react": "^7.18.6",
+		"@testing-library/react": "^13.4.0",
+		"eslint": "^8.24.0",
+		"eslint-config-giovanni": "giovannicalo/eslint-config",
+		"jest": "^29.1.2",
+		"jest-environment-jsdom": "^29.1.2"
+	},
+	"engines": {
+		"node": ">=18.10.0"
+	},
+	"homepage": "https://github.com/giovannicalo/react-wrtc",
+	"keywords": ["composite", "react", "stream", "video", "webrtc", "websocket", "wrtc", "ws"],
+	"license": "MIT",
+	"main": "dist/index.js",
+	"name": "react-wrtc",
+	"peerDependencies": {
+		"react": "^18.2.0",
+		"styled-components": "^5.3.6"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/giovannicalo/react-wrtc.git"
+	},
+	"scripts": {
+		"build": "babel --ignore \"**/*.spec.js\" --out-dir dist source && node scripts/build",
+		"lint": "eslint -f pretty .",
+		"prepare": "npm run build",
+		"prepublishOnly": "npm run lint && npm test",
+		"start": "jest --watch",
+		"test": "jest"
+	},
+	"version": "0.0.0"
+}
