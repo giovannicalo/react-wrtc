@@ -10,7 +10,6 @@
 	"dependencies": {
 		"@mapbox/shelf-pack": "^3.2.0",
 		"react-view": "giovannicalo/react-view",
-		"uuid": "^9.0.0",
 		"wrtc-ws-api-client": "giovannicalo/js-wrtc-ws-api-client"
 	},
 	"description": "React WebRTC",
