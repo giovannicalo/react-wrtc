@@ -8,6 +8,7 @@ type Dimensions = {
 };
 
 type PlayerProps = ViewProps & {
+	debug?: boolean;
 	source?: ApiClient.JsonSerializable;
 };
 

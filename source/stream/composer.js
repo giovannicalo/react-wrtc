@@ -40,14 +40,24 @@ class Composer extends EventTarget {
 	};
 
 	resizeRegion = ({ id }, { height, width }) => {
-		this.#regions[id].height = height + 1 & ~1;
-		this.#regions[id].width = width + 1 & ~1;
-		this.#pack();
+		const {
+			height: currentHeight,
+			width: currentWidth
+		} = this.#regions[id];
+		const evenHeight = height + 1 & ~1;
+		const evenWidth = width + 1 & ~1;
+		if (currentHeight !== evenHeight || currentWidth !== evenWidth) {
+			this.#regions[id].height = evenHeight;
+			this.#regions[id].width = evenWidth;
+			this.#pack();
+		}
 	};
 
 	setRegionSource = ({ id }, source) => {
-		this.#regions[id].source = source;
-		this.dispatchEvent(new Event("update"));
+		if (this.#regions[id].source !== source) {
+			this.#regions[id].source = source;
+			this.dispatchEvent(new Event("update"));
+		}
 	};
 
 	removeRegion = ({ id }) => {
