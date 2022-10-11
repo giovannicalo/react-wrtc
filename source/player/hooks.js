@@ -12,13 +12,17 @@ const useHooks = ({ ref, source }) => {
 		const { height, width, x, y } = region.current;
 		context.current.clearRect(0, 0, width, height);
 		context.current.drawImage(stream.video, x, y, width, height, 0, 0, width, height);
-		loop.current = requestAnimationFrame(render);
 	}, [stream]);
+	const renderLoop = useCallback(() => {
+		render();
+		loop.current = stream.requestFrameCallback(renderLoop);
+	}, [render, stream]);
 	const resize = useCallback(([{ contentRect: { height, width } }]) => {
 		canvas.current.height = height * devicePixelRatio;
 		canvas.current.width = width * devicePixelRatio;
 		stream.composer.resizeRegion(region.current, canvas.current);
-	}, [stream]);
+		render();
+	}, [render, stream]);
 	useEffect(() => {
 		context.current = canvas.current.getContext("2d");
 	}, []);
@@ -36,11 +40,11 @@ const useHooks = ({ ref, source }) => {
 		};
 	}, [resize]);
 	useEffect(() => {
-		render();
+		renderLoop();
 		return () => {
-			cancelAnimationFrame(loop.current);
+			stream.cancelFrameCallback(loop.current);
 		};
-	}, [render]);
+	}, [renderLoop, stream]);
 	useEffect(() => {
 		stream.composer.setRegionSource(region.current, source);
 	}, [source, stream]);

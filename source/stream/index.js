@@ -26,6 +26,10 @@ class Stream {
 		return this.#apiClient;
 	}
 
+	cancelFrameCallback = (handle) => {
+		this.#video.cancelVideoFrameCallback?.(handle) || cancelAnimationFrame(handle);
+	};
+
 	close = () => {
 		clearTimeout(this.#timeout);
 		this.#apiClient?.close();
@@ -59,6 +63,10 @@ class Stream {
 	#handleTrack = ({ track }) => {
 		this.#video.srcObject = new MediaStream([track]);
 		this.#video.play();
+	};
+
+	requestFrameCallback = (callback) => {
+		return this.#video.requestVideoFrameCallback?.(callback) || requestAnimationFrame(callback);
 	};
 
 	#sendState = () => {
