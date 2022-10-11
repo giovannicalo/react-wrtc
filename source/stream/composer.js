@@ -4,11 +4,13 @@ class Composer extends EventTarget {
 
 	#nextId = 0;
 
+	#packTimeout = null;
+
 	#packer = new ShelfPack(0, 0, { autoResize: true });
 
 	#regions = {};
 
-	#timeout = null;
+	#updateTimeout = null;
 
 	createRegion = () => {
 		const id = ++this.#nextId;
@@ -22,6 +24,13 @@ class Composer extends EventTarget {
 		return this.#regions[id];
 	};
 
+	#emitUpdate = () => {
+		clearTimeout(this.#updateTimeout);
+		this.#updateTimeout = setTimeout(() => {
+			this.dispatchEvent(new Event("update"));
+		}, 10);
+	};
+
 	get height() {
 		return this.#packer.h;
 	}
@@ -31,11 +40,11 @@ class Composer extends EventTarget {
 	}
 
 	#pack = () => {
-		clearTimeout(this.#timeout);
-		this.#timeout = setTimeout(() => {
+		clearTimeout(this.#packTimeout);
+		this.#packTimeout = setTimeout(() => {
 			this.#packer.clear();
 			this.#packer.pack(this.regions, { inPlace: true });
-			this.dispatchEvent(new Event("update"));
+			this.#emitUpdate();
 		}, 10);
 	};
 
@@ -56,7 +65,7 @@ class Composer extends EventTarget {
 	setRegionSource = ({ id }, source) => {
 		if (this.#regions[id].source !== source) {
 			this.#regions[id].source = source;
-			this.dispatchEvent(new Event("update"));
+			this.#emitUpdate();
 		}
 	};
 
