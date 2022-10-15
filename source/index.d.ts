@@ -7,15 +7,6 @@ type Dimensions = {
 	width: number;
 };
 
-type PlayerProps = ViewProps & {
-	debug?: boolean;
-	source?: ApiClient.JsonSerializable;
-};
-
-type ProviderProps = {
-	stream: Stream;
-};
-
 type Region = {
 	height: number;
 	id: number;
@@ -23,6 +14,16 @@ type Region = {
 	width: number;
 	x: number;
 	y: number;
+};
+
+type PlayerProps = ViewProps & {
+	debug?: boolean;
+	onRender?(context: CanvasRenderingContext2D, region: Region): void;
+	source?: ApiClient.JsonSerializable;
+};
+
+type ProviderProps = {
+	stream: Stream;
 };
 
 declare class Composer {

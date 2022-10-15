@@ -3,7 +3,7 @@ import { useCallback, useEffect, useImperativeHandle, useRef } from "react";
 import useStream from "../hook";
 import { Statistics, renderOverlay } from "./debug";
 
-const useHooks = ({ debug, ref, source }) => {
+const useHooks = ({ debug, onRender, ref, source }) => {
 	const canvas = useRef();
 	const context = useRef();
 	const loop = useRef();
@@ -20,11 +20,12 @@ const useHooks = ({ debug, ref, source }) => {
 		const { height, width, x, y } = region.current;
 		context.current.clearRect(0, 0, width, height);
 		context.current.drawImage(stream.video, x, y, width, height, 0, 0, width, height);
+		onRender?.(context.current, region.current);
 		if (debug) {
 			renderOverlay(context.current, region.current, statistics.current);
 		}
 		statistics.current?.end();
-	}, [debug, stream]);
+	}, [debug, onRender, stream]);
 	const renderLoop = useCallback(() => {
 		render();
 		loop.current = stream.requestFrameCallback(renderLoop);
