@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useImperativeHandle, useRef } from "react";
 
 import useStream from "../hook";
-import drawOverlay from "./debug/draw-overlay";
-import Statistics from "./debug/statistics";
+import { Statistics, renderOverlay } from "./debug";
 
 const useHooks = ({ debug, ref, source }) => {
 	const canvas = useRef();
@@ -22,7 +21,7 @@ const useHooks = ({ debug, ref, source }) => {
 		context.current.clearRect(0, 0, width, height);
 		context.current.drawImage(stream.video, x, y, width, height, 0, 0, width, height);
 		if (debug) {
-			drawOverlay(context.current, region.current, statistics.current);
+			renderOverlay(context.current, region.current, statistics.current);
 		}
 		statistics.current?.end();
 	}, [debug, stream]);
