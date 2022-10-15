@@ -9,4 +9,5 @@ babel.config.js
 coverage
 jest.config.js
 jsconfig.json
+scripts
 source
