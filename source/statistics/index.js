@@ -23,11 +23,8 @@ class Statistics {
 		this.#frameCount++;
 		this.#totalFrameTime += currentTime - this.#frameStartTime;
 		if (currentTime >= this.#previousUpdateTime + 1000) {
-			const timeUnit = 1000 / (currentTime - this.#previousUpdateTime);
-			this.#frameRate = this.#frameCount * timeUnit;
-			this.#frameRateGraph.update(this.#frameRate);
-			this.#frameTime = this.#totalFrameTime / this.#frameCount * timeUnit;
-			this.#frameTimeGraph.update(this.#frameTime);
+			const frameRate = this.#frameCount * 1000 / (currentTime - this.#previousUpdateTime);
+			this.update(frameRate, this.#totalFrameTime / frameRate);
 			this.#frameCount = 0;
 			this.#previousUpdateTime = currentTime;
 			this.#totalFrameTime = 0;
@@ -52,6 +49,13 @@ class Statistics {
 
 	start = () => {
 		this.#frameStartTime = performance.now();
+	};
+
+	update = (frameRate, frameTime) => {
+		this.#frameRate = frameRate;
+		this.#frameRateGraph.update(frameRate);
+		this.#frameTime = frameTime;
+		this.#frameTimeGraph.update(frameTime);
 	};
 
 }

@@ -1,11 +1,11 @@
+import renderGraphs from "./render-graphs";
 import renderText from "./render-text";
 
-const renderOverlay = (context, { height, id, source, width, x, y }, statistics) => {
+const renderOverlay = (context, { height, id, source, width, x, y }, streamStatistics, playerStatistics) => {
 	const fontSize = Math.floor(width >= height ? height / 12 : width / 16);
 	const graphWidth = Math.floor(width / 8);
 	const padding = Math.floor(fontSize / 4);
 	const graphX = width - padding - graphWidth;
-	const graphText = graphX - padding;
 	const secondLine = fontSize + padding;
 	const thirdLine = secondLine + fontSize;
 	context.fillStyle = "#FFFFFF";
@@ -17,10 +17,8 @@ const renderOverlay = (context, { height, id, source, width, x, y }, statistics)
 	renderText(context, `${x},${y}`, padding, thirdLine, "left", "top");
 	renderText(context, source, padding, height - padding, "left", "bottom");
 	renderText(context, Date.now(), width - padding, height - padding, "right", "bottom");
-	renderText(context, Math.round(statistics.frameRate), graphText, padding, "right", "top");
-	renderText(context, Math.round(statistics.frameTime), graphText, secondLine, "right", "top");
-	statistics.frameRateGraph.render(context, graphX, padding, graphWidth, fontSize);
-	statistics.frameTimeGraph.render(context, graphX, secondLine, graphWidth, fontSize);
+	renderGraphs(context, streamStatistics, graphX, padding, graphWidth, fontSize, padding);
+	renderGraphs(context, playerStatistics, graphX, thirdLine, graphWidth, fontSize, padding);
 };
 
 export default renderOverlay;

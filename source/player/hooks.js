@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useImperativeHandle, useRef } from "react";
 
 import useStream from "../hook";
-import { Statistics, renderOverlay } from "./debug";
+import Statistics from "../statistics";
+import renderOverlay from "./render-overlay";
 
 const useHooks = ({ debug, onRender, ref, source }) => {
 	const canvas = useRef();
@@ -10,11 +11,7 @@ const useHooks = ({ debug, onRender, ref, source }) => {
 	const region = useRef();
 	const statistics = useRef();
 	const stream = useStream();
-	if (debug) {
-		statistics.current ||= new Statistics();
-	} else {
-		delete statistics.current;
-	}
+	statistics.current ||= new Statistics();
 	const render = useCallback(() => {
 		statistics.current?.start();
 		const { height, width, x, y } = region.current;
@@ -22,7 +19,7 @@ const useHooks = ({ debug, onRender, ref, source }) => {
 		context.current.drawImage(stream.video, x, y, width, height, 0, 0, width, height);
 		onRender?.(context.current, region.current);
 		if (debug) {
-			renderOverlay(context.current, region.current, statistics.current);
+			renderOverlay(context.current, region.current, stream.statistics, statistics.current);
 		}
 		statistics.current?.end();
 	}, [debug, onRender, stream]);

@@ -1,5 +1,6 @@
 import ApiClient from "wrtc-ws-api-client";
 
+import Statistics from "../statistics";
 import Composer from "./composer";
 
 class Stream {
@@ -10,6 +11,10 @@ class Stream {
 
 	#connection = null;
 
+	#interval = null;
+
+	#statistics = new Statistics();
+
 	#timeout = null;
 
 	#video = document.createElement("video");
@@ -19,6 +24,7 @@ class Stream {
 		this.#apiClient.addEventListener("candidate", this.#handleCandidate);
 		this.#apiClient.addEventListener("offer", this.#handleOffer);
 		this.#composer.addEventListener("update", this.#sendState);
+		this.#interval = setInterval(this.#updateStatistics, 1000);
 		this.#video.muted = true;
 	}
 
@@ -31,6 +37,7 @@ class Stream {
 	};
 
 	close = () => {
+		clearInterval(this.#interval);
 		clearTimeout(this.#timeout);
 		this.#apiClient?.close();
 		this.#connection?.close();
@@ -78,6 +85,27 @@ class Stream {
 				event: "state"
 			});
 		}, 100);
+	};
+
+	get statistics() {
+		return this.#statistics;
+	}
+
+	#updateStatistics = async () => {
+		if (!this.#connection) {
+			return;
+		}
+		for (const [, {
+			framesDecoded,
+			framesPerSecond,
+			totalDecodeTime,
+			type
+		}] of await this.#connection.getStats()) {
+			if (type === "inbound-rtp") {
+				this.#statistics.update(framesPerSecond, totalDecodeTime * 1000 / framesDecoded);
+				return;
+			}
+		}
 	};
 
 	get video() {

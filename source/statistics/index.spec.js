@@ -1,4 +1,4 @@
-import Statistics from "./statistics";
+import Statistics from ".";
 
 jest.mock("./graph", () => {
 	return jest.fn().mockImplementation(() => {
@@ -59,6 +59,13 @@ it("should not update more than once per second", () => {
 	mockFrames(statistics, 2000, 4001, 60, 16);
 	expect(statistics.frameRate).toBe(60);
 	expect(statistics.frameTime).toBe(16);
+});
+
+it("should update with the given values", () => {
+	const statistics = new Statistics();
+	statistics.update(13, 42);
+	expect(statistics.frameRate).toBe(13);
+	expect(statistics.frameTime).toBe(42);
 });
 
 it("should return the frame rate graph", () => {
