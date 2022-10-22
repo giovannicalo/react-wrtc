@@ -15,14 +15,14 @@
 	"description": "React WebRTC",
 	"devDependencies": {
 		"@babel/cli": "^7.19.3",
-		"@babel/core": "^7.19.3",
-		"@babel/preset-env": "^7.19.3",
+		"@babel/core": "^7.19.6",
+		"@babel/preset-env": "^7.19.4",
 		"@babel/preset-react": "^7.18.6",
 		"@testing-library/react": "^13.4.0",
-		"eslint": "^8.25.0",
+		"eslint": "^8.26.0",
 		"eslint-config-giovanni": "giovannicalo/eslint-config",
-		"jest": "^29.1.2",
-		"jest-environment-jsdom": "^29.1.2"
+		"jest": "^29.2.1",
+		"jest-environment-jsdom": "^29.2.1"
 	},
 	"engines": {
 		"node": ">=18.10.0"
