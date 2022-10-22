@@ -88,17 +88,18 @@ it("should set a region's source", () => {
 	});
 });
 
-it("should return its total height", () => {
+it("should return its total height", async () => {
 	const composer = new Composer();
 	const region = composer.createRegion();
 	composer.resizeRegion(region, {
 		height: 1080,
 		width: 1920
 	});
-	return new Promise((resolve, reject) => {
+	await new Promise((resolve, reject) => {
 		composer.addEventListener("update", () => {
 			try {
-				resolve(expect(composer.height).toBe(1080));
+				expect(composer.height).toBe(1080);
+				resolve();
 			} catch (error) {
 				reject(error);
 			}
@@ -106,17 +107,18 @@ it("should return its total height", () => {
 	});
 });
 
-it("should return its total width", () => {
+it("should return its total width", async () => {
 	const composer = new Composer();
 	const region = composer.createRegion();
 	composer.resizeRegion(region, {
 		height: 1080,
 		width: 1920
 	});
-	return new Promise((resolve, reject) => {
+	await new Promise((resolve, reject) => {
 		composer.addEventListener("update", () => {
 			try {
-				resolve(expect(composer.width).toBe(1920));
+				expect(composer.width).toBe(1920);
+				resolve();
 			} catch (error) {
 				reject(error);
 			}
