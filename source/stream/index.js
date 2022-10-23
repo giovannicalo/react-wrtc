@@ -11,11 +11,15 @@ class Stream {
 
 	#connection = null;
 
+	#frameCount = 0;
+
 	#interval = null;
 
 	#statistics = new Statistics();
 
 	#timeout = null;
+
+	#totalFrameTime = 0;
 
 	#video = document.createElement("video");
 
@@ -102,7 +106,13 @@ class Stream {
 			type
 		}] of await this.#connection.getStats()) {
 			if (type === "inbound-rtp") {
-				this.#statistics.update(framesPerSecond, totalDecodeTime * 1000 / framesDecoded);
+				const totalFrameTime = totalDecodeTime * 1000;
+				this.#statistics.update(
+					framesPerSecond,
+					(totalFrameTime - this.#totalFrameTime) / (framesDecoded - this.#frameCount)
+				);
+				this.#frameCount = framesDecoded;
+				this.#totalFrameTime = totalFrameTime;
 				return;
 			}
 		}
