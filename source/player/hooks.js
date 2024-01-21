@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useImperativeHandle, useRef } from "react";
 
+import renderOverlay from "./render-overlay";
 import useStream from "../hook";
 import Statistics from "../statistics";
-import renderOverlay from "./render-overlay";
 
 const useHooks = ({ debug, onRender, ref, source }) => {
 	const canvas = useRef();

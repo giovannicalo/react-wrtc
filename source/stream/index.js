@@ -1,7 +1,7 @@
 import ApiClient from "wrtc-ws-api-client";
 
-import Statistics from "../statistics";
 import Composer from "./composer";
+import Statistics from "../statistics";
 
 class Stream {
 
