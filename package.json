@@ -19,7 +19,7 @@
 		"@babel/preset-env": "^7.23.8",
 		"@babel/preset-react": "^7.23.3",
 		"@testing-library/react": "^14.1.2",
-		"eslint": "^8.56.0",
+		"eslint": "^8.57.0",
 		"eslint-config-giovanni": "giovannicalo/eslint-config",
 		"jest": "^29.7.0",
 		"jest-environment-jsdom": "^29.7.0"
