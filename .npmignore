@@ -2,8 +2,6 @@
 .editorconfig
 .gitattributes
 .github
-.gitignore
-.npmignore
 babel.config.js
 coverage
 eslint.config.js
