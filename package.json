@@ -31,7 +31,7 @@
 	"homepage": "https://github.com/giovannicalo/react-wrtc",
 	"keywords": ["composite", "react", "stream", "video", "webrtc", "websocket", "wrtc", "ws"],
 	"license": "MIT",
-	"main": "dist/index.js",
+	"main": "build/index.js",
 	"name": "react-wrtc",
 	"peerDependencies": {
 		"react": ">=18.3.1",
@@ -42,7 +42,7 @@
 		"url": "https://github.com/giovannicalo/react-wrtc.git"
 	},
 	"scripts": {
-		"build": "babel --ignore \"**/*.spec.js\" --out-dir dist source && node scripts/build",
+		"build": "babel --ignore \"**/*.spec.js\" --out-dir build source && node scripts/build",
 		"lint": "eslint -f pretty .",
 		"prepare": "npm run build",
 		"prepublishOnly": "npm run lint && npm test",
