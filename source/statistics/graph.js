@@ -2,7 +2,7 @@ class Graph {
 
 	#canvas = document.createElement("canvas");
 
-	#context = this.#canvas.getContext("2d");
+	#context = this.#canvas.getContext("2d", { willReadFrequently: true });
 
 	#maximum = null;
 
