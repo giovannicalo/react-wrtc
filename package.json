@@ -14,13 +14,13 @@
 	},
 	"description": "React WebRTC",
 	"devDependencies": {
-		"@babel/cli": "^7.24.7",
-		"@babel/core": "^7.24.7",
-		"@babel/preset-env": "^7.24.7",
-		"@babel/preset-react": "^7.24.7",
-		"@testing-library/dom": "^10.2.0",
-		"@testing-library/react": "^16.0.0",
-		"eslint": "^8.57.0",
+		"@babel/cli": "^7.27.1",
+		"@babel/core": "^7.27.1",
+		"@babel/preset-env": "^7.27.1",
+		"@babel/preset-react": "^7.27.1",
+		"@testing-library/dom": "^10.4.0",
+		"@testing-library/react": "^16.3.0",
+		"eslint": "^9.25.1",
 		"eslint-config-giovanni": "giovannicalo/eslint-config",
 		"jest": "^29.7.0",
 		"jest-environment-jsdom": "^29.7.0"
@@ -34,8 +34,8 @@
 	"main": "build/index.js",
 	"name": "react-wrtc",
 	"peerDependencies": {
-		"react": ">=18.3.1",
-		"styled-components": ">=6.1.11"
+		"react": "^19.1.0",
+		"styled-components": "^6.1.17"
 	},
 	"repository": {
 		"type": "git",
