@@ -72,8 +72,8 @@ declare class Statistics {
 declare class Stream {
 	constructor(
 		apiUrl: string,
-		apiOptions: ApiClient.Options,
-		decoder: Decoder
+		apiOptions?: ApiClient.Options,
+		decoder?: Decoder
 	);
 	get apiClient(): ApiClient;
 	cancelFrameCallback(handle: number): void;

@@ -40,6 +40,7 @@ Video player component. It must be placed inside a `Provider`.
 Props are:
 
 * `debug`: whether to render the debug overlay, defaults to `false`.
+* `onRender` a function to be called on every video frame, in the form `(CanvasRenderingContext2D, Region, Stream): void`, defaults to `undefined`.
 * `source`: a JSON-serializable identifier used to control what will be played, defaults to `undefined`.
 * any [React View](https://github.com/giovannicalo/react-view) props.
 * any [Styled Components](https://github.com/styled-components/styled-components) props.
@@ -53,7 +54,7 @@ Props are:
 
 * `stream`: a `Stream` instance, defaults to `undefined`
 
-### `new Stream(apiUrl: string, apiOptions: ApiClient.Options)`
+### `new Stream(apiUrl: string, apiOptions?: ApiClient.Options, decoder?: Decoder)`
 
 Creates an [API client](https://github.com/giovannicalo/js-wrtc-ws-api-client) with the given `apiOptions` that will try to connect to the server running at `apiUrl`. Upon success, it will initialize a [WebRTC connection](https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection) and request to play the `source`s of any associated `Player`s.
 
@@ -75,13 +76,15 @@ It must also send the following messages:
 * `{ data: { candidate }, event: "candidate" }`: when its own `RTCPeerConnection`'s `icecandidate` event occurs.
 * `{ data: { sdp }, event: "offer" }`: upon connection, with its `RTCPeerConnection`' `localDescription`.
 
+An optional `decoder` can be provided to decode any metadata present in the video frames.
+
 #### `apiClient: ApiClient`
 
 The `Stream`'s `ApiClient`. It can be used to e.g. send custom messages to the server.
 
 #### `cancelFrameCallback(handle: number): void`
 
-A convenient wrapper around `cancelVideoFrameCallback` or [`cancelAnimationFrame`](https://developer.mozilla.org/en-US/docs/Web/API/Window/cancelAnimationFrame), depending on what's available.
+A convenient wrapper around [`cancelVideoFrameCallback`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLVideoElement/cancelVideoFrameCallback) or [`cancelAnimationFrame`](https://developer.mozilla.org/en-US/docs/Web/API/Window/cancelAnimationFrame), depending on what's available.
 
 #### `close(): void`
 
@@ -91,9 +94,17 @@ Permanently closes the `Stream`.
 
 The `Stream`'s `Composer`. It can be used e.g. to add regions that will be used by a custom player.
 
+#### `decoder: Decoder`
+
+The `Stream`'s metadata `Decoder`, if any.
+
+#### `metadata: any`
+
+Metadata for the current frame, if any.
+
 #### `requestFrameCallback(callback: () => void): number`
 
-A convenient wrapper around `requestVideoFrameCallback` or [`requestAnimationFrame`](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame), depending on what's available.
+A convenient wrapper around [`requestVideoFrameCallback`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLVideoElement/requestVideoFrameCallback) or [`requestAnimationFrame`](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame), depending on what's available.
 
 #### `video: HTMLVideoElement`
 
