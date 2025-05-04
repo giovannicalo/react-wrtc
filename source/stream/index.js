@@ -1,7 +1,7 @@
 import ApiClient from "wrtc-ws-api-client";
 
-import Composer from "./composer";
 import Statistics from "../statistics";
+import Composer from "./composer";
 
 class Stream {
 
@@ -10,6 +10,8 @@ class Stream {
 	#composer = new Composer();
 
 	#connection = null;
+
+	#decoder = null;
 
 	#frameCount = 0;
 
@@ -23,11 +25,16 @@ class Stream {
 
 	#video = document.createElement("video");
 
-	constructor(apiUrl, apiOptions) {
+	constructor(apiUrl, apiOptions, decoder) {
 		this.#apiClient = new ApiClient(apiUrl, apiOptions);
 		this.#apiClient.addEventListener("candidate", this.#handleCandidate);
 		this.#apiClient.addEventListener("offer", this.#handleOffer);
 		this.#composer.addEventListener("update", this.#sendState);
+		if (decoder) {
+			this.#decoder = decoder;
+			this.#decoder.decode(this);
+			this.#decoder.statistics = new Statistics();
+		}
 		this.#interval = setInterval(this.#updateStatistics, 1000);
 		this.#video.muted = true;
 	}
@@ -45,11 +52,16 @@ class Stream {
 		clearTimeout(this.#timeout);
 		this.#apiClient?.close();
 		this.#connection?.close();
+		this.#decoder?.close();
 		this.#video?.remove();
 	};
 
 	get composer() {
 		return this.#composer;
+	}
+
+	get decoder() {
+		return this.#decoder;
 	}
 
 	#handleCandidate = ({ data: { candidate } }) => {
@@ -75,6 +87,10 @@ class Stream {
 		this.#video.srcObject = new MediaStream([track]);
 		this.#video.play();
 	};
+
+	get metadata() {
+		return this.#decoder?.data;
+	}
 
 	requestFrameCallback = (callback) => {
 		return this.#video.requestVideoFrameCallback?.(callback) || requestAnimationFrame(callback);

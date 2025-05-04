@@ -38,6 +38,13 @@ declare class Composer {
 
 declare const Context: Context<Stream>;
 
+declare class Decoder {
+	constructor();
+	close(): void;
+	get data(): any;
+	decode(stream: Stream): void;
+}
+
 declare class Graph {
 	constructor(maximum: number, width?: number, height?: number);
 	render(context: CanvasRenderingContext2D, x: number, y: number, width: number, height: number): void;
@@ -59,11 +66,17 @@ declare class Statistics {
 }
 
 declare class Stream {
-	constructor(apiUrl: string, apiOptions: ApiClient.Options);
+	constructor(
+		apiUrl: string,
+		apiOptions: ApiClient.Options,
+		decoder: Decoder
+	);
 	get apiClient(): ApiClient;
 	cancelFrameCallback(handle: number): void;
 	close(): void;
 	get composer(): Composer;
+	get decoder(): Decoder;
+	get metadata(): any;
 	requestFrameCallback(callback: () => void): number;
 	get statistics(): Statistics;
 	get video(): HTMLVideoElement;
