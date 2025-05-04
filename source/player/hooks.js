@@ -39,7 +39,7 @@ const useHooks = ({ debug, onRender, ref, source }) => {
 		context.current.drawImage(stream.video, ...coordinates);
 		onRender?.(context.current, region.current, stream);
 		if (debug) {
-			renderOverlay(context.current, region.current, stream.statistics, statistics.current);
+			renderOverlay(context.current, region.current, stream, statistics.current);
 		}
 		statistics.current.end();
 	}, [debug, onRender, stream]);
