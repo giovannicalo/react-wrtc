@@ -81,7 +81,7 @@ declare class Stream {
 	get composer(): Composer;
 	get decoder(): Decoder;
 	get metadata(): any;
-	requestFrameCallback(callback: () => void): number;
+	requestFrameCallback(callback: FrameRequestCallback): number;
 	get statistics(): Statistics;
 	get video(): HTMLVideoElement;
 }
