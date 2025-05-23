@@ -1,10 +1,9 @@
-import { forwardRef, memo } from "react";
+import { memo } from "react";
 
 import useHooks from "./hooks";
 import Canvas from "./style";
 
-// eslint-disable-next-line react/no-multi-comp
-const Player = memo(forwardRef(({ debug, onRender, source, ...otherProps }, ref) => {
+const Player = memo(({ debug, onRender, ref, source, ...otherProps }) => {
 	const canvas = useHooks({ debug, onRender, ref, source });
 	return <Canvas
 		element="canvas"
@@ -13,6 +12,6 @@ const Player = memo(forwardRef(({ debug, onRender, source, ...otherProps }, ref)
 		width={0}
 		{...otherProps}
 	/>;
-}));
+});
 
 export default Player;
