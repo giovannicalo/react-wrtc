@@ -15,31 +15,34 @@ const useHooks = ({ debug, onRender, ref, source }) => {
 	const render = useCallback(() => {
 		statistics.current.start();
 		const { height, id, width, x, y } = region.current;
-		const { isValid, regions } = stream.metadata || {};
 		context.current.clearRect(0, 0, width, height);
 		const coordinates = [x, y, width, height, 0, 0, width, height];
-		if (isValid && regions[id]) {
-			const region = regions[id];
-			let heightRatio = height / region.height;
-			let widthRatio = width / region.width;
-			if (Math.abs(widthRatio - heightRatio) > 0.01) {
-				const ratio = Math.min(widthRatio, heightRatio);
-				heightRatio = ratio;
-				widthRatio = ratio;
+		let response = null;
+		if (stream.metadata) {
+			const { isValid, regions } = stream.metadata;
+			if (isValid && regions[id]) {
+				response = regions[id];
+				let heightRatio = height / response.height;
+				let widthRatio = width / response.width;
+				if (Math.abs(widthRatio - heightRatio) > 0.01) {
+					const ratio = Math.min(widthRatio, heightRatio);
+					heightRatio = ratio;
+					widthRatio = ratio;
+				}
+				coordinates[0] = response.x;
+				coordinates[1] = response.y;
+				coordinates[2] = response.width;
+				coordinates[3] = response.height;
+				coordinates[4] = Math.max(Math.trunc((width - response.width * widthRatio) / 2), 0);
+				coordinates[5] = Math.max(Math.trunc((height - response.height * heightRatio) / 2), 0);
+				coordinates[6] = response.width * widthRatio;
+				coordinates[7] = response.height * heightRatio;
 			}
-			coordinates[0] = region.x;
-			coordinates[1] = region.y;
-			coordinates[2] = region.width;
-			coordinates[3] = region.height;
-			coordinates[4] = Math.max(Math.trunc((width - region.width * widthRatio) / 2), 0);
-			coordinates[5] = Math.max(Math.trunc((height - region.height * heightRatio) / 2), 0);
-			coordinates[6] = region.width * widthRatio;
-			coordinates[7] = region.height * heightRatio;
 		}
 		context.current.drawImage(stream.video, ...coordinates);
-		onRender?.(context.current, region.current, stream);
+		onRender?.(context.current, region.current, response, stream);
 		if (debug) {
-			renderOverlay(context.current, region.current, stream, statistics.current);
+			renderOverlay(context.current, region.current, response, stream, statistics.current);
 		}
 		statistics.current.end();
 	}, [debug, onRender, stream]);
