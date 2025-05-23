@@ -39,9 +39,9 @@ Video player component. It must be placed inside a `Provider`.
 
 Props are:
 
-* `debug`: whether to render the debug overlay, defaults to `false`.
-* `onRender` a function to be called on every video frame, in the form `(CanvasRenderingContext2D, Region, Stream): void`, defaults to `undefined`.
-* `source`: a JSON-serializable identifier used to control what will be played, defaults to `undefined`.
+* `debug?: boolean`: whether to render the debug overlay, defaults to `false`.
+* `onRender?(context: CanvasRenderingContext2D, request: Region, response: Region, stream: Stream): void` a function to be called on every video frame, defaults to `undefined`.
+* `source?: JsonSerializable`: a JSON-serializable identifier used to control what will be played, defaults to `undefined`.
 * any [React View](https://github.com/giovannicalo/react-view) props.
 * any [Styled Components](https://github.com/styled-components/styled-components) props.
 * any [HTML Canvas Element](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement) props.

@@ -11,6 +11,7 @@ type Region = {
 	height: number;
 	id: number;
 	source?: ApiClient.JsonSerializable;
+	time?: number;
 	width: number;
 	x: number;
 	y: number;
@@ -20,7 +21,8 @@ type PlayerProps = ViewProps & {
 	debug?: boolean;
 	onRender?(
 		context: CanvasRenderingContext2D,
-		region: Region,
+		request: Region,
+		response: Region,
 		stream: Stream
 	): void;
 	source?: ApiClient.JsonSerializable;
